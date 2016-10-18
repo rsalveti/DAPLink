@@ -160,6 +160,7 @@ HIC_STRING_TO_ID = {
     'lpc11u35': 0x97969902,
     'sam3u2c': 0x97969903,
     'lpc4322': 0x97969905,
+    'gd32f103': 0x97969906,
 }
 
 BOARD_ID_LOCKED_WHEN_ERASED = set([
