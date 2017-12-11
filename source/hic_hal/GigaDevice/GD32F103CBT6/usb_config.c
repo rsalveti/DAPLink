@@ -50,7 +50,7 @@
 #define USBD_MAX_PACKET0            64
 #define USBD_DEVDESC_IDVENDOR       0x0D28
 #define USBD_DEVDESC_IDPRODUCT      0x0204
-#define USBD_DEVDESC_BCDDEVICE      0x0100 //was 0x0100
+#define USBD_DEVDESC_BCDDEVICE      0x0200
 
 //   <h> Configuration Settings
 //     <i> These settings affect Configuration Descriptor
@@ -305,7 +305,7 @@
 #define USBD_CDC_ACM_EP_INTIN           3
 #define USBD_CDC_ACM_EP_INTIN_STACK     0
 #define USBD_CDC_ACM_WMAXPACKETSIZE     16
-#define USBD_CDC_ACM_BINTERVAL          32
+#define USBD_CDC_ACM_BINTERVAL          1
 #define USBD_CDC_ACM_HS_ENABLE          0
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE  16
 #define USBD_CDC_ACM_HS_BINTERVAL       2
