@@ -308,7 +308,7 @@
 #define USBD_CDC_ACM_BINTERVAL          1
 #define USBD_CDC_ACM_HS_ENABLE          0
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE  16
-#define USBD_CDC_ACM_HS_BINTERVAL       2
+#define USBD_CDC_ACM_HS_BINTERVAL       1
 #define USBD_CDC_ACM_EP_BULKIN          4
 #define USBD_CDC_ACM_EP_BULKOUT         4
 #define USBD_CDC_ACM_EP_BULKIN_STACK    0
