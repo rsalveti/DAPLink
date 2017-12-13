@@ -60,9 +60,6 @@ uint8_t write_buffer_data[BUFFER_SIZE];
 circ_buf_t read_buffer;
 uint8_t read_buffer_data[BUFFER_SIZE];
 
-/* Flow control enabled by default */
-static uint8_t flow_control_enabled = 1;
-
 static UART_Configuration configuration = {
     .Baudrate = 9600,
     .DataBits = UART_DATA_BITS_8,
@@ -176,18 +173,18 @@ int32_t uart_set_configuration(UART_Configuration *config)
     configuration.DataBits = UART_DATA_BITS_8;
     uart_handle.USART_WL = USART_WL_8B;
 
-    // Flow control
-    if (flow_control_enabled) {
+    // Specified baudrate
+    configuration.Baudrate = config->Baudrate;
+    uart_handle.USART_BRR = config->Baudrate;
+
+    // Flow control by default if baud is over 921600
+    if (config->Baudrate >= 921600) {
         configuration.FlowControl = UART_FLOW_CONTROL_RTS_CTS;
         uart_handle.USART_HardwareFlowControl = USART_HARDWAREFLOWCONTROL_RTS_CTS;
     } else {
         configuration.FlowControl = UART_FLOW_CONTROL_NONE;
         uart_handle.USART_HardwareFlowControl = USART_HARDWAREFLOWCONTROL_NONE;
     }
-
-    // Specified baudrate
-    configuration.Baudrate = config->Baudrate;
-    uart_handle.USART_BRR = config->Baudrate;
 
     // TX and RX
     uart_handle.USART_RxorTx = USART_RXORTX_TX | USART_RXORTX_RX;
@@ -213,7 +210,8 @@ int32_t uart_get_configuration(UART_Configuration *config)
     config->DataBits = configuration.DataBits;
     config->Parity   = configuration.Parity;
     config->StopBits = configuration.StopBits;
-    if (flow_control_enabled) {
+    // Flow control by default if baud is over 921600
+    if (config->Baudrate >= 921600) {
         config->FlowControl = UART_FLOW_CONTROL_RTS_CTS;
     } else {
         config->FlowControl = UART_FLOW_CONTROL_NONE;
@@ -243,11 +241,6 @@ int32_t uart_write_data(uint8_t *data, uint16_t size)
 int32_t uart_read_data(uint8_t *data, uint16_t size)
 {
     return circ_buf_read(&read_buffer, data, size);
-}
-
-void uart_enable_flow_control(bool enabled)
-{
-    flow_control_enabled = (uint8_t) enabled;
 }
 
 void CDC_UART_IRQn_Handler(void)
